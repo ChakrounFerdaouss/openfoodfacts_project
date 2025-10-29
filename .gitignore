@@ -1,0 +1,23 @@
+# Fichiers Python compilés
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environnements virtuels
+venv/
+env/
+
+# Fichiers de base de données
+*.db
+
+# Fichiers Excel exportés
+*.xlsx
+
+# Graphiques générés
+*.png
+
+# IDE et fichiers système
+.idea/
+.vscode/
+.DS_Store

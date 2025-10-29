@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-import sqlite3
+from pymongo import MongoClient
 
 class Scraper:
     """Scraper HTML des produits OpenFoodFacts"""
@@ -9,17 +9,12 @@ class Scraper:
         self.base_url = base_url
 
     def fetch_product(self, barcode):
-        """
-        Récupère la page HTML d'un produit.
-        Gère les exceptions HTTP et timeout.
-        """
         try:
             url = f"{self.base_url}{barcode}"
             response = requests.get(url, timeout=10)
             response.raise_for_status()
             soup = BeautifulSoup(response.content, "html.parser")
 
-            # Extraction des informations
             nom = soup.find("h1", {"property": "food:name"})
             nom = nom.text.strip() if nom else ""
 
@@ -63,41 +58,31 @@ class Cleaner:
         return product_data
 
 class DBManager:
-    """Gestion BDD SQLite"""
+    """Gestion de la BDD MongoDB"""
 
-    def __init__(self, db_name="food.db"):
-        self.conn = sqlite3.connect(db_name)
-        self.create_table()
-
-    def create_table(self):
-        cursor = self.conn.cursor()
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS produits (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                barcode TEXT UNIQUE,
-                nom TEXT,
-                marque TEXT,
-                categorie TEXT,
-                nutriscore TEXT,
-                labels TEXT
-            )
-        """)
-        self.conn.commit()
+    def __init__(self, uri="mongodb://localhost:27017/", db_name="food_db"):
+        self.client = MongoClient(uri)
+        self.db = self.client[db_name]
+        self.collection = self.db["produits"]
 
     def insert_product(self, product):
         if product is None:
             return
-        cursor = self.conn.cursor()
         try:
-            cursor.execute("""
-                INSERT OR IGNORE INTO produits
-                (barcode, nom, marque, categorie, nutriscore, labels)
-                VALUES (?, ?, ?, ?, ?, ?)
-            """, (product["barcode"], product["nom"], product["marque"],
-                  product["categorie"], product["nutriscore"], product["labels"]))
-            self.conn.commit()
-        except sqlite3.Error as e:
+            self.collection.update_one(
+                {"barcode": product["barcode"]},
+                {"$set": product},
+                upsert=True
+            )
+        except Exception as e:
             print(f"Erreur insertion produit {product['barcode']}: {e}")
 
+    def get_all_products(self):
+        try:
+            return list(self.collection.find())
+        except Exception as e:
+            print(f"Erreur récupération produits : {e}")
+            return []
+
     def close(self):
-        self.conn.close()
+        self.client.close()

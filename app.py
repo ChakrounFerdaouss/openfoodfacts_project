@@ -19,20 +19,23 @@ def main():
 
     scraper = Scraper()
     cleaner = Cleaner()
-    db = DBManager()
+    db = DBManager()  # MongoDB
 
     for code in barcodes:
         try:
             raw_data = scraper.fetch_product(code)
             cleaned_data = cleaner.clean(raw_data)
             db.insert_product(cleaned_data)
-            print(f"Produit {code} inséré dans la BDD")
+            print(f"Produit {code} inséré dans MongoDB")
         except Exception as e:
             print(f"Erreur pour le produit {code}: {e}")
 
     # --- Export Excel ---
     try:
-        df = pd.read_sql_query("SELECT * FROM produits", db.conn)
+        products = db.get_all_products()
+        df = pd.DataFrame(products)
+        if "_id" in df.columns:
+            df.drop("_id", axis=1, inplace=True)
         df.to_excel("produits_openfoodfacts.xlsx", index=False)
         print("Fichier Excel généré : produits_openfoodfacts.xlsx")
     except Exception as e:
@@ -47,7 +50,6 @@ def main():
         plt.savefig("nutriscore_distribution.png")
         print("Graphique NutriScore généré : nutriscore_distribution.png")
 
-        # Top 10 catégories
         df_cat = df["categorie"].value_counts().head(10)
         df_cat.plot(kind="bar", title="Top 10 catégories")
         plt.ylabel("Nombre de produits")

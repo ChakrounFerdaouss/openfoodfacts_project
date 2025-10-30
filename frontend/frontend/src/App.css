@@ -1,42 +1,176 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* ===========================================================
+   GLOBAL LIGHT PASTEL BLUE THEME — CLEAN + COHERENT
+   =========================================================== */
+
+:root {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --text: #2e4a63;         /* deep pastel navy */
+  --muted: #6c8197;        /* faded slate */
+  --border: #d3e3f7;       /* pastel blue border */
+  --chip-bg: #eef4ff;      /* label chip background */
+  --chip-border: #d4e2ff;
+  --chip-text: #35557a;
+}
+
+/* Background gradient */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: linear-gradient(180deg, #f1f6ff 0%, #e6f0ff 55%, #dce7ff 100%);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ===========================================================
+   BEAUTIFUL CENTERED HEADER
+   =========================================================== */
+
+.page-title {
   text-align: center;
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #6fbaff, #9fd3ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 6px rgba(120, 160, 200, 0.25);
+  margin-bottom: 0.5rem;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.page-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #4f6f8e;
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* ===========================================================
+   INPUTS + SELECTS
+   =========================================================== */
+
+:where(input[type="text"], select) {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+  color: var(--text);
+  transition: 0.15s ease;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+:where(input, select):hover {
+  border-color: #bfd4ec;
 }
 
-.card {
-  padding: 2em;
+:where(input, select):focus {
+  border-color: #9ac7ff;
+  box-shadow: 0 0 0 4px rgba(120, 180, 255, 0.25);
+  outline: none;
 }
 
-.read-the-docs {
-  color: #888;
+/* ===========================================================
+   BUTTONS
+   =========================================================== */
+
+button {
+  font: inherit;
+  padding: 0.55rem 0.95rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text);
+  cursor: pointer;
+  transition: 0.15s;
 }
+
+button:hover {
+  background: #f7fbff;
+  border-color: #c5d8f2;
+  box-shadow: 0 6px 16px rgba(90, 140, 200, 0.15);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Primary filter button (if needed) */
+button.primary {
+  background: linear-gradient(90deg, #7cc7ff, #5faaf7);
+  color: white;
+  border: none;
+}
+button.primary:hover {
+  box-shadow: 0 10px 26px rgba(95, 170, 247, 0.35);
+}
+
+/* ===========================================================
+   TABLE — CLEAN PASTEL BLUE
+   =========================================================== */
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(80, 140, 200, 0.12);
+}
+
+/* Header */
+thead th {
+  background: linear-gradient(180deg, #f5f9ff, #eaf2ff);
+  color: var(--text);
+  font-weight: 600;
+  padding: 14px 16px;
+  border-bottom: 1px solid #c9daf2;
+  text-align: left;
+}
+
+/* Table cells */
+tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #d8e4f6;
+  color: var(--text);
+}
+
+/* Zebra rows */
+tbody tr:nth-child(odd) { background: #ffffff; }
+tbody tr:nth-child(even) { background: #f7fbff; }
+
+/* Hover row */
+tbody tr:hover {
+  background: #eaf2ff;
+  transition: background 0.2s ease;
+}
+
+/* ===========================================================
+   LABEL CHIPS — ONLY LABEL COLUMN
+   =========================================================== */
+
+.labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.label-chip {
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-border);
+  color: var(--chip-text);
+  border-radius: 9999px;
+  padding: 3px 10px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* Remove old vite stuff */
+.logo, .card, .read-the-docs { all: unset; }

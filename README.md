@@ -91,3 +91,23 @@ python app.py
 * Le projet respecte **l’éthique du scraping** : petits volumes, gestion des exceptions, pas de surcharge serveur.
 * `.gitignore` exclut : fichiers Excel, PNG, bases de données locales, et dossiers IDE/venv.
 * Peut être adapté facilement pour plus de produits ou d’autres analyses.
+
+---
+
+## Site web
+
+Lancer Backend : 
+
+```bash
+cd backend
+npm install
+npm run dev
+```
+
+Lancer Frontend : 
+
+```bash
+cd frontend/frontend
+npm install
+npm run dev
+```

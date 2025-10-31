@@ -5,4 +5,5 @@ export interface Product {
   categorie: string;
   nutriscore: string;
   labels: string;
+  url: string;
 }

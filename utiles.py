@@ -189,3 +189,4 @@ class Repository:
     def close(self):
         try: self.client.close()
         except Exception: pass
+        

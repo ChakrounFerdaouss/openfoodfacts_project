@@ -8,7 +8,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 
 def main():
     # -------- Config --------
-    categories = ["chocolates", "biscuits", "waters", "breakfast-cereals", "yogurts"]
+    categories = ["waters", "biscuits", "chocolates", "cookiesbreakfast-cereals", "yogurts"]
     max_pages_per_category = 2
     barcode_limit_total = 120
 
